@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from "react-native";
+import { ItemListContainer } from "./Containers/ItemListContainer";
+import { HeaderContainer } from "./Containers/HeaderContainer/HeaderContainer";
+import { useState } from "react";
+import { centerContents, darkBackground, flexOne } from "./Styles";
 
 export default function App() {
+  const [items, setItems] = useState([]);
+  const [key, setKey] = useState(0);
+
+  const getNewKey = () => {
+    setKey(key + 1);
+    return key;
+  };
+  const addNewItem = (item) => {
+    const itemWithKey = { text: item, key: getNewKey() };
+    setItems([...items, itemWithKey]);
+  };
+
+  const removeItem = (key) => {
+    const newItems = items.filter((item) => {
+      return item.key != key;
+    });
+    setItems(newItems);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={screenStyles}>
+      <HeaderContainer addNewItem={addNewItem} />
+      <ItemListContainer itemList={items} removeItem={removeItem} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const screenStyles = {
+  ...centerContents,
+  ...darkBackground,
+  ...flexOne,
+  paddingTop: 50,
+};
