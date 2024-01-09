@@ -21,6 +21,7 @@ export const AddItemComponent = ({ addNewItem }) => {
         placeholder="Escribe algo para agregar"
         onChangeText={saveText}
         value={text}
+        onSubmitEditing={addItem}
       />
       <Pressable style={buttonStyles} onPress={addItem}>
         <Text style={buttonText}>Agregar</Text>
